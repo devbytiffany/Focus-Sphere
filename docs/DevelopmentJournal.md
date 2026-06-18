@@ -13,3 +13,10 @@
 **What I built:** users, category, priorities, task_status, tasks, events, focus_sessions tables
 **Problems encountered:** status table already existed, renamed to task_status. Fixed foreign key type mismatch error.
 **Next steps:** Set up the backend
+
+## Day 3
+**Date:** 2026-06-19
+**What I learned:** Created a backend server using Node.js and Express
+**What I built:** index.js with a working server running on port 3000
+**Problems encountered:** echo. command doesn't work in PowerShell, used New-Item instead
+**Next steps:** Connect backend to Supabase database
