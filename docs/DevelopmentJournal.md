@@ -34,3 +34,10 @@
 **What I built:** POST /register route, tested with Postman, verified data in Supabase
 **Problems encountered:** Duplicate createClient import causing SyntaxError
 **Next steps:** Build user login endpoint
+
+## Day 6
+**Date:** 2026-06-19
+**What I learned:** Built and tested a login endpoint using bcrypt.compare to verify hashed passwords
+**What I built:** POST /login route, tested with Postman
+**Problems encountered:** Typed wrong password during testing, confirmed bcrypt correctly rejected it
+**Next steps:** Build logout functionality
