@@ -20,3 +20,10 @@
 **What I built:** index.js with a working server running on port 3000
 **Problems encountered:** echo. command doesn't work in PowerShell, used New-Item instead
 **Next steps:** Connect backend to Supabase database
+
+## Day 4
+**Date:** 2026-06-19
+**What I learned:** Connected Express backend to Supabase database using @supabase/supabase-js
+**What I built:** Supabase client connection, /test-db route to verify connection
+**Problems encountered:** Typo - wrote res.join instead of res.json
+**Next steps:** Build user registration (Sign Up) endpoint
