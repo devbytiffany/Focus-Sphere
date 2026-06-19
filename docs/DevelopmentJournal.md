@@ -27,3 +27,10 @@
 **What I built:** Supabase client connection, /test-db route to verify connection
 **Problems encountered:** Typo - wrote res.join instead of res.json
 **Next steps:** Build user registration (Sign Up) endpoint
+
+## Day 5
+**Date:** 2026-06-19
+**What I learned:** Built and tested a user registration endpoint with password hashing using bcrypt
+**What I built:** POST /register route, tested with Postman, verified data in Supabase
+**Problems encountered:** Duplicate createClient import causing SyntaxError
+**Next steps:** Build user login endpoint
