@@ -41,3 +41,10 @@
 **What I built:** POST /login route, tested with Postman
 **Problems encountered:** Typed wrong password during testing, confirmed bcrypt correctly rejected it
 **Next steps:** Build logout functionality
+
+## Day 7
+**Date:** 2026-06-19
+**What I learned:** Built JWT-based authentication with middleware to protect routes
+**What I built:** jwt token generation in /login, verifyToken middleware, protected /profile route, /logout route
+**Problems encountered:** Typo - req.header instead of req.headers in middleware
+**Next steps:** Sprint 1 complete. Plan Sprint 2 - Task management (CRUD operations)
