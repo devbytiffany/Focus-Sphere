@@ -22,7 +22,7 @@ function verifyToken(req, res, next){
     }
 
     const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.JWT_SECRET,(err, decoded)=>{
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
         if(err){
             return res.status(401).json({error:'Invalid or expired token'});
         }
@@ -109,6 +109,94 @@ app.get('/test-db', async (req, res) => {
     res.json({message: 'Database connected!', data});
 });
 
+//Tasks Route
+app.post('/tasks', verifyToken, async (req, res)=>{
+    const {title, description, due_date, category_id, priority_id, status_id}= req.body;
+    if(!title){
+        return res.status(400).json({error:'Title is required'});
+    }
+
+    const{data, error}= await supabase
+        .from('tasks')
+        .insert([{
+            title,
+            description,
+            due_date,
+            user_id: req.user.id,
+            category_id,
+            priority_id,
+            status_id
+        }])
+        .select();
+    if(error){
+        return res.status(500).json({error: error.message});
+    }
+    res.status(201).json({message: 'Task created successfully', task: data[0]});
+});
+
+//Read Tasks
+app.get('/tasks', verifyToken, async (req, res) => {
+    const { data, error } = await supabase
+        .from('tasks')
+        .select('*')
+        .eq('user_id', req.user.id);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ tasks: data });
+});
+
+//Update Route
+app.put('/tasks/:id', verifyToken, async(req, res)=>{
+    const{id}= req.params;
+    const{title, description, due_date, category_id, priority_id, status_id}=req.body;
+
+    const updates ={};
+    if(title !== undefined)updates.title= title;
+    if (description !== undefined) updates.description = description;
+    if (due_date !== undefined) updates.due_date = due_date;
+    if (category_id !== undefined) updates.category_id = category_id;
+    if (priority_id !== undefined) updates.priority_id = priority_id;
+    if (status_id !== undefined) updates.status_id = status_id;
+
+    const {data, error}= await supabase
+        .from('tasks')
+        .update(updates)
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if(error){
+        return res.status(500).json({error: error.message});
+    }
+
+    if(data.length === 0){
+        return res.status(404).json({error: 'Task not found'});
+    }
+    res.status(200).json({message: 'Task updated successfully', task: data[0]});
+});
+//Delete Route
+app.delete('/tasks/:id', verifyToken, async(req,res)=>{
+    const{id}= req.params;
+
+    const{data, error} = await supabase
+        .from('tasks')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if(error){
+        return res.status(500).json({error: error.message});
+    }
+
+    if(data.length === 0){
+        return res.status(404).json({error: 'Task not found'});
+    }
+    res.status(200).json({message: 'Tasks deleted successfully'});
+});
 
 app.get("/profile", verifyToken,(req, res)=>{
     res.status(200).json({message:'You are authenticated!', user: req.user});
