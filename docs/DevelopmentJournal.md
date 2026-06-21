@@ -62,3 +62,10 @@
 **What I built:** Full CRUD for categories and priorities, Create + Read only for task_status (shared data, no update/delete to avoid breaking things for other users)
 **Problems encountered:** None - pattern reuse made this fast
 **Next steps:** Build Events CRUD
+
+## Day 10
+**Date:** 2026-06-21
+**What I learned:** Completed Events CRUD; learned that missing one route during manual typing can break only that specific request, not the whole server
+**What I built:** Full CRUD for events (create, read, update, delete), scoped to logged-in user
+**Problems encountered:** POST /events route was missing after typing in the other three - traced and fixed by comparing against the full file
+**Next steps:** Build Focus Sessions routes, then plan deployment
