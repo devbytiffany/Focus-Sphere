@@ -559,7 +559,92 @@ app.get('/focus-sessions', verifyToken, async (req, res) => {
 
 app.get("/profile", verifyToken,(req, res)=>{
     res.status(200).json({message:'You are authenticated!', user: req.user});
-})
+});
+
+//Update Profile
+app.put('/profile', verifyToken, async (req, res) => {
+    const { name, email, password } = req.body;
+
+    const updates = {};
+    if (name !== undefined) updates.name = name;
+
+    if (email !== undefined) {
+        const { data: existing, error: checkError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('email', email);
+
+        if (checkError) {
+            return res.status(500).json({ error: checkError.message });
+        }
+
+        if (existing.length > 0 && existing[0].id !== req.user.id) {
+            return res.status(409).json({ error: 'Email already in use' });
+        }
+
+        updates.email = email;
+    }
+
+    if (password !== undefined) {
+        updates.password = await bcrypt.hash(password, 10);
+    }
+
+    const { data, error } = await supabase
+        .from('users')
+        .update(updates)
+        .eq('id', req.user.id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    const updatedUser = data[0];
+    res.status(200).json({
+        message: 'Profile updated successfully',
+        user: { id: updatedUser.id, name: updatedUser.name, email: updatedUser.email }
+    });
+});
+
+//Change Password
+app.put('/profile/change-password', verifyToken, async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: 'Current and new password are required' });
+    }
+
+    const { data: users, error: fetchError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', req.user.id);
+
+    if (fetchError) {
+        return res.status(500).json({ error: fetchError.message });
+    }
+
+    const user = users[0];
+
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!passwordMatch) {
+        return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    const { error: updateError } = await supabase
+        .from('users')
+        .update({ password: hashedNewPassword })
+        .eq('id', req.user.id);
+
+    if (updateError) {
+        return res.status(500).json({ error: updateError.message });
+    }
+
+    res.status(200).json({ message: 'Password changed successfully' });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
