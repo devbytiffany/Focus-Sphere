@@ -76,3 +76,10 @@
 **What I built:** POST /focus-sessions/start, PUT /focus-sessions/:id/stop (calculates duration), GET /focus-sessions, DELETE /focus-sessions/:id
 **Problems encountered:** Duration was wildly incorrect (11121 instead of ~322 seconds) due to TIMESTAMP columns lacking timezone info; fixed by altering columns to TIMESTAMPTZ
 **Next steps:** All database tables now have working backend routes. Plan deployment or start frontend
+
+## Day 12
+**Date:** 2026-06-21
+**What I learned:** Built profile update (with email conflict checking) and change password routes; learned Postman keeps separate Authorization headers per tab, which caused confusing "invalid token" errors across different test requests
+**What I built:** PUT /profile (update name/email/password with conflict checking), PUT /profile/change-password (verifies current password before allowing change)
+**Problems encountered:** Spent a long time debugging "invalid or expired token" - root cause was a stale token saved in one specific Postman tab's Headers, not a code bug
+**Next steps:** Build dashboard/analytics endpoint, then move to deployment
