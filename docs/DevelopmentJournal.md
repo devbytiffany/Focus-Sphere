@@ -83,3 +83,10 @@
 **What I built:** PUT /profile (update name/email/password with conflict checking), PUT /profile/change-password (verifies current password before allowing change)
 **Problems encountered:** Spent a long time debugging "invalid or expired token" - root cause was a stale token saved in one specific Postman tab's Headers, not a code bug
 **Next steps:** Build dashboard/analytics endpoint, then move to deployment
+
+## Day 13
+**Date:** 2026-06-21
+**What I learned:** Built a dashboard/analytics endpoint using .reduce() to sum values across records, .gte() for date filtering, and modulo (%) math to format seconds into readable hours/minutes
+**What I built:** GET /dashboard - returns total tasks, total focus time (seconds, minutes, and formatted as "Xh Ym"), and count of upcoming events
+**Problems encountered:** None
+**Next steps:** Backend feature-complete. Move to deployment, then frontend
