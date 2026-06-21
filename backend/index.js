@@ -100,8 +100,9 @@ app.post('/logout', verifyToken,(req, res)=>{
     res.status(200).json({message: 'Logout Successfull'});
 });
 
-app.get('/test-db', async (req, res) => {
-    const{data, error} = await supabase.from('users').select('*');
+//Test DB Route (protected)
+app.get('/test-db', verifyToken, async (req, res) => {
+    const{data, error} = await supabase.from('users').select('id, name, email, created_at');
 
     if (error){
         return res.status(500).json({error: error.message});
