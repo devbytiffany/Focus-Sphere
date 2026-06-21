@@ -473,6 +473,90 @@ app.delete('/events/:id', verifyToken, async (req, res) => {
     res.status(200).json({ message: 'Event deleted successfully' });
 });
 
+//Focus Sessions Routes
+app.post('/focus-sessions/start', verifyToken, async (req, res) => {
+    const { data, error } = await supabase
+        .from('focus_sessions')
+        .insert([{ start_time: new Date(), user_id: req.user.id }])
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(201).json({ message: 'Focus session started', session: data[0] });
+});
+
+app.put('/focus-sessions/:id/stop', verifyToken, async (req, res) => {
+    const { id } = req.params;
+
+    const { data: sessions, error: fetchError } = await supabase
+        .from('focus_sessions')
+        .select('*')
+        .eq('id', id)
+        .eq('user_id', req.user.id);
+
+    if (fetchError) {
+        return res.status(500).json({ error: fetchError.message });
+    }
+
+    if (sessions.length === 0) {
+        return res.status(404).json({ error: 'Focus session not found' });
+    }
+
+    const session = sessions[0];
+    const endTime = new Date();
+    const startTime = new Date(session.start_time);
+    const durationInSeconds = Math.round((endTime - startTime) / 1000);
+
+    const { data, error } = await supabase
+        .from('focus_sessions')
+        .update({ end_time: endTime, duration: durationInSeconds })
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: 'Focus session stopped', session: data[0] });
+});
+
+app.delete('/focus-sessions/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+        .from('focus_sessions')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    if (data.length === 0) {
+        return res.status(404).json({ error: 'Focus session not found' });
+    }
+
+    res.status(200).json({ message: 'Focus session deleted successfully' });
+});
+
+app.get('/focus-sessions', verifyToken, async (req, res) => {
+    const { data, error } = await supabase
+        .from('focus_sessions')
+        .select('*')
+        .eq('user_id', req.user.id);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ sessions: data });
+});
+
 app.get("/profile", verifyToken,(req, res)=>{
     res.status(200).json({message:'You are authenticated!', user: req.user});
 })
