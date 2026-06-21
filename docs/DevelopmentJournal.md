@@ -69,3 +69,10 @@
 **What I built:** Full CRUD for events (create, read, update, delete), scoped to logged-in user
 **Problems encountered:** POST /events route was missing after typing in the other three - traced and fixed by comparing against the full file
 **Next steps:** Build Focus Sessions routes, then plan deployment
+
+## Day 11
+**Date:** 2026-06-21
+**What I learned:** Built start/stop pattern for focus sessions; learned about TIMESTAMP vs TIMESTAMPTZ and how missing timezone info causes incorrect duration calculations
+**What I built:** POST /focus-sessions/start, PUT /focus-sessions/:id/stop (calculates duration), GET /focus-sessions, DELETE /focus-sessions/:id
+**Problems encountered:** Duration was wildly incorrect (11121 instead of ~322 seconds) due to TIMESTAMP columns lacking timezone info; fixed by altering columns to TIMESTAMPTZ
+**Next steps:** All database tables now have working backend routes. Plan deployment or start frontend
