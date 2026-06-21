@@ -48,3 +48,10 @@
 **What I built:** jwt token generation in /login, verifyToken middleware, protected /profile route, /logout route
 **Problems encountered:** Typo - req.header instead of req.headers in middleware
 **Next steps:** Sprint 1 complete. Plan Sprint 2 - Task management (CRUD operations)
+
+## Day 8
+**Date:** 2026-06-20
+**What I learned:** Built full CRUD operations for tasks, learned about route parameters (:id) and HTTP methods PUT/DELETE
+**What I built:** POST /tasks, GET /tasks, PUT /tasks/:id, DELETE /tasks/:id - all scoped to the logged-in user
+**Problems encountered:** Typo - period instead of comma in app.put() broke route registration; duplicate test tasks from earlier debugging, cleaned up using DELETE route
+**Next steps:** Sprint 2 complete. Push to GitHub, then plan Sprint 3
