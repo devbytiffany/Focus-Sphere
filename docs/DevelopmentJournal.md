@@ -90,3 +90,10 @@
 **What I built:** GET /dashboard - returns total tasks, total focus time (seconds, minutes, and formatted as "Xh Ym"), and count of upcoming events
 **Problems encountered:** None
 **Next steps:** Backend feature-complete. Move to deployment, then frontend
+
+## Day 14
+**Date:** 2026-06-21
+**What I learned:** Deployed the backend to Render, connected to GitHub for auto-deploy on push, configured environment variables securely on the hosting platform, learned free tier services spin down after inactivity
+**What I built:** Live backend at https://focus-sphere.onrender.com, fully connected to Supabase in production. Protected the /test-db route with verifyToken and removed exposed password field
+**Problems encountered:** Initial deploy attempt prompted for a credit card unexpectedly (known intermittent Render issue); resolved by explicitly confirming Free instance type
+**Next steps:** Backend is feature-complete and deployed. Move to frontend development, then connect frontend to this live backend URL
