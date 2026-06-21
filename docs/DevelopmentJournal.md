@@ -55,3 +55,10 @@
 **What I built:** POST /tasks, GET /tasks, PUT /tasks/:id, DELETE /tasks/:id - all scoped to the logged-in user
 **Problems encountered:** Typo - period instead of comma in app.put() broke route registration; duplicate test tasks from earlier debugging, cleaned up using DELETE route
 **Next steps:** Sprint 2 complete. Push to GitHub, then plan Sprint 3
+
+## Day 9
+**Date:** 2026-06-21
+**What I learned:** Reused the CRUD pattern from Tasks to quickly build Category, Priorities, and Task Status routes; learned when NOT to scope by user_id (shared reference data)
+**What I built:** Full CRUD for categories and priorities, Create + Read only for task_status (shared data, no update/delete to avoid breaking things for other users)
+**Problems encountered:** None - pattern reuse made this fast
+**Next steps:** Build Events CRUD
