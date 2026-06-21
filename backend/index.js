@@ -645,6 +645,52 @@ app.put('/profile/change-password', verifyToken, async (req, res) => {
     res.status(200).json({ message: 'Password changed successfully' });
 });
 
+//Dashboard / Analytics
+app.get('/dashboard', verifyToken, async (req, res) => {
+    const { data: tasks, error: tasksError } = await supabase
+        .from('tasks')
+        .select('id')
+        .eq('user_id', req.user.id);
+
+    if (tasksError) {
+        return res.status(500).json({ error: tasksError.message });
+    }
+
+    const { data: sessions, error: sessionsError } = await supabase
+        .from('focus_sessions')
+        .select('duration')
+        .eq('user_id', req.user.id);
+
+    if (sessionsError) {
+        return res.status(500).json({ error: sessionsError.message });
+    }
+
+    const { data: events, error: eventsError } = await supabase
+        .from('events')
+        .select('id, start_time')
+        .eq('user_id', req.user.id)
+        .gte('start_time', new Date().toISOString());
+
+    if (eventsError) {
+        return res.status(500).json({ error: eventsError.message });
+    }
+
+    const totalFocusSeconds = sessions.reduce((sum, session) => sum + (session.duration || 0), 0);
+    const totalFocusMinutes = Math.round(totalFocusSeconds / 60);
+
+    const hours = Math.floor(totalFocusMinutes / 60);
+    const minutes = totalFocusMinutes % 60;
+    const formattedFocusTime = `${hours}h ${minutes}m`;
+
+    res.status(200).json({
+        totalTasks: tasks.length,
+        totalFocusSeconds,
+        totalFocusMinutes,
+        formattedFocusTime,
+        upcomingEvents: events.length
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
