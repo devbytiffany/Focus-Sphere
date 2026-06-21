@@ -177,6 +177,7 @@ app.put('/tasks/:id', verifyToken, async(req, res)=>{
     }
     res.status(200).json({message: 'Task updated successfully', task: data[0]});
 });
+
 //Delete Route
 app.delete('/tasks/:id', verifyToken, async(req,res)=>{
     const{id}= req.params;
@@ -388,6 +389,88 @@ app.get('/task-status', verifyToken, async (req, res) => {
     }
 
     res.status(200).json({ statuses: data });
+});
+
+//Events Routes
+app.post('/events', verifyToken, async (req, res) => {
+    const { title, description, start_time, end_time } = req.body;
+
+    if (!title || !start_time) {
+        return res.status(400).json({ error: 'Title and start_time are required' });
+    }
+
+    const { data, error } = await supabase
+        .from('events')
+        .insert([{ title, description, start_time, end_time, user_id: req.user.id }])
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(201).json({ message: 'Event created successfully', event: data[0] });
+});
+
+app.get('/events', verifyToken, async (req, res) => {
+    const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .eq('user_id', req.user.id);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ events: data });
+});
+
+app.put('/events/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+    const { title, description, start_time, end_time } = req.body;
+
+    const updates = {};
+    if (title !== undefined) updates.title = title;
+    if (description !== undefined) updates.description = description;
+    if (start_time !== undefined) updates.start_time = start_time;
+    if (end_time !== undefined) updates.end_time = end_time;
+
+    const { data, error } = await supabase
+        .from('events')
+        .update(updates)
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    if (data.length === 0) {
+        return res.status(404).json({ error: 'Event not found' });
+    }
+
+    res.status(200).json({ message: 'Event updated successfully', event: data[0] });
+});
+
+app.delete('/events/:id', verifyToken, async (req, res) => {
+    const { id } = req.params;
+
+    const { data, error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', req.user.id)
+        .select();
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    if (data.length === 0) {
+        return res.status(404).json({ error: 'Event not found' });
+    }
+
+    res.status(200).json({ message: 'Event deleted successfully' });
 });
 
 app.get("/profile", verifyToken,(req, res)=>{
