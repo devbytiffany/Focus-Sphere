@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link} from 'react-router-dom'
 import { apiRequest } from '../api/api'
 
 function Dashboard() {
@@ -37,7 +37,7 @@ function Dashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>Dashboard</h1> <Link to="/tasks">View Tasks</Link>
       <button onClick={handleLogout}>Logout</button>
       <p>Total Tasks: {stats.totalTasks}</p>
       <p>Focus Time: {stats.formattedFocusTime}</p>
