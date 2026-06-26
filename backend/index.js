@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const{createClient} = require('@supabase/supabase-js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -13,6 +14,7 @@ const supabase = createClient(
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 function verifyToken(req, res, next){
     const authHeader = req.headers.authorization;
