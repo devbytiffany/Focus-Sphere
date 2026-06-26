@@ -15,6 +15,7 @@ function Login(){
         try{
             const data = await apiRequest('/login', 'POST', {email, password})
             localStorage.setItem('token', data.token)
+            navigate('/dashboard')
         } catch (err){
             setError(err.message)
         }
