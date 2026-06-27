@@ -6,6 +6,8 @@ function Tasks(){
     const [tasks, setTasks]= useState([])
     const [title, setTitle]= useState('')
     const [error, setError]= useState('')
+    const [editingId, setEditingId]= useState(null)
+    const [editTitle, setEditTitle] = useState('')
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
 
@@ -37,9 +39,19 @@ function Tasks(){
         }
     }
 
-    async function handleDelete(){
+    async function handleDelete(id){
         try{
             await apiRequest(`/tasks/${id}`, 'DELETE', null, token)
+            loadTasks()
+        } catch (err){
+            setError(err.message)
+        }
+    }
+
+    async function handleUpdate(id){
+        try{
+            await apiRequest(`/tasks/${id}`, 'PUT', {title: editTitle}, token)
+            setEditingId(null)
             loadTasks()
         } catch (err){
             setError(err.message)
@@ -59,10 +71,25 @@ function Tasks(){
             {error && <p>{error}</p>}
 
             <ul>
-                {tasks.map((task)=>(
-                    <li key={task.id}>{task.title} <button onClick={()=> handleDelete (task.id)}>Delete</button>
-                    </li>
-                ))}
+            {tasks.map((task) => (
+                <li key={task.id}>
+                {editingId === task.id ? (
+                    <>
+                    <input
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                    />
+                    <button onClick={() => handleUpdate(task.id)}>Save</button>
+                    </>
+                ) : (
+                    <>
+                    {task.title}
+                    <button onClick={() => { setEditingId(task.id); setEditTitle(task.title) }}>Edit</button>
+                    </>
+                )}
+                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                </li>
+            ))}
             </ul>
         </div>
     )
