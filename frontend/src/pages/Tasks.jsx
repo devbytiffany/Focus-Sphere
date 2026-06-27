@@ -1,4 +1,4 @@
-import{useState} from 'react'
+import{useState, useEffect} from 'react'
 import{ useNavigate, Link} from 'react-router-dom'
 import {apiRequest} from '../api/api'
 
@@ -49,7 +49,7 @@ function Tasks(){
     return(
         <div>
             <h1>Your Tasks</h1>
-            <link to ='/dashboard'>Back to Dashboard</link>
+            <Link to ='/dashboard'>Back to Dashboard</Link>
 
             <form onSubmit={handleCreate}>
                 <input type ='text' placeholder='New task title' value={title} onChange={(e) => setTitle(e.target.value)}/>
