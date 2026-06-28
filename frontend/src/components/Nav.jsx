@@ -15,6 +15,7 @@ function Nav() {
       <Link to="/events">Events</Link>
       <Link to="/focus">Focus Mode</Link>
       <Link to="/profile">Profile</Link>
+      <Link to="/settings">Settings</Link>
       <button onClick={handleLogout}>Logout</button>
     </nav>
   )

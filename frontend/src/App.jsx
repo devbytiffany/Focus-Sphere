@@ -6,6 +6,7 @@ import Tasks from './pages/Tasks'
 import Events from './pages/Events'
 import FocusMode from './pages/FocusMode'
 import Profile from './pages/Profile'
+import Settings from './pages/Settings'
 import './App.css'
 
 function App(){
@@ -19,6 +20,7 @@ function App(){
       <Route path="/events" element={<Events />} />
       <Route path="/focus" element={<FocusMode />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/settings" element={<Settings />} />
     </Routes>
   )
 }
