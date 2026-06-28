@@ -10,6 +10,9 @@ function Events(){
     const[error, setError] = useState('')
     const navigate= useNavigate()
     const token = localStorage.getItem('token')
+    const [editingId, setEditingId] = useState(null)
+    const [editTitle, setEditTitle] = useState('')
+    const [editStartTime, setEditStartTime] = useState('')
 
     useEffect(()=> {
         if(!token){
@@ -40,6 +43,16 @@ function Events(){
         }
     }
 
+    async function handleUpdate(id) {
+        try {
+            await apiRequest(`/events/${id}`, 'PUT', { title: editTitle, start_time: editStartTime }, token)
+            setEditingId(null)
+            loadEvents()
+        } catch (err) {
+            setError(err.message)
+        }
+    }
+
     async function handleDelete(id){
         try{
             await apiRequest(`/events/${id}`, 'DELETE', null, token)
@@ -64,14 +77,29 @@ function Events(){
 
             {error &&<p>{error}</p>}
 
-            <ul>
-                {events.map((event) => (
+        <ul>
+            {events.map((event) => (
                 <li key={event.id}>
+                {editingId === event.id ? (
+                    <>
+                    <input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
+                    <input
+                        type="datetime-local"
+                        value={editStartTime}
+                        onChange={(e) => setEditStartTime(e.target.value)}
+                    />
+                    <button onClick={() => handleUpdate(event.id)}>Save</button>
+                    </>
+                ) : (
+                    <>
                     {event.title} — {new Date(event.start_time).toLocaleString()}
-                    <button onClick={() => handleDelete(event.id)}>Delete</button>
+                    <button onClick={() => { setEditingId(event.id); setEditTitle(event.title); setEditStartTime(event.start_time) }}>Edit</button>
+                    </>
+                )}
+                <button onClick={() => handleDelete(event.id)}>Delete</button>
                 </li>
-                ))}
-            </ul>
+            ))}
+        </ul>
 
         </div>
     )
