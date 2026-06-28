@@ -3,6 +3,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Tasks from './pages/Tasks'
+import Events from './pages/Events'
 import './App.css'
 
 function App(){
@@ -13,6 +14,7 @@ function App(){
       <Route path="/" element={<Login/>}/>
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/tasks" element={<Tasks />} />
+      <Route path="/events" element={<Events />} />
     </Routes>
   )
 }
