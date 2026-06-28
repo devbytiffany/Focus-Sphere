@@ -39,11 +39,13 @@ function Dashboard() {
   return (
     <div>
       <Nav/>
+      <div className="page-content">
       <h1>Dashboard</h1> <Link to ='/dashboard'>Back to Dashboard</Link>
       <button onClick={handleLogout}>Logout</button>
       <p>Total Tasks: {stats.totalTasks}</p>
       <p>Focus Time: {stats.formattedFocusTime}</p>
       <p>Upcoming Events: {stats.upcomingEvents}</p>
+    </div>
     </div>
   )
 }
