@@ -1,5 +1,6 @@
 import { useState, useEffect} from 'react'
 import { useNavigate, Link} from 'react-router-dom'
+import Nav from '../components/Nav'
 import {apiRequest} from '../api/api'
 
 function Events(){
@@ -50,6 +51,7 @@ function Events(){
 
     return (
         <div>
+            <Nav/>
             <h1>Your Events</h1>
             <Link to ="/dashboard">Back to Dashboard</Link>
 

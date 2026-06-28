@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
+import Nav from '../components/Nav'
 import {apiRequest} from '../api/api'
 
 function FocusMode(){
@@ -55,21 +56,20 @@ function FocusMode(){
   }
 
   return (
-    <div>
-      <h1>Focus Mode</h1>
-      <Link to="/dashboard">Back to Dashboard</Link>
+  <div>
+    <Nav />
+    <h1>Focus Mode</h1>
+    <h2>{formatTime(seconds)}</h2>
 
-      <h2>{formatTime(seconds)}</h2>
+    {error && <p>{error}</p>}
 
-      {error && <p>{error}</p>}
-
-      {!isRunning ? (
-        <button onClick={handleStart}>Start Focus Session</button>
-      ) : (
-        <button onClick={handleStop}>Stop</button>
-      )}
-    </div>
-  )
+    {!isRunning ? (
+      <button onClick={handleStart}>Start Focus Session</button>
+    ) : (
+      <button onClick={handleStop}>Stop</button>
+    )}
+  </div>
+)
 }
 
 export default FocusMode

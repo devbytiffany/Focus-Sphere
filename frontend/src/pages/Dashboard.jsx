@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link} from 'react-router-dom'
+import Nav from '../components/Nav'
 import { apiRequest } from '../api/api'
 
 function Dashboard() {
@@ -37,7 +38,8 @@ function Dashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1> <Link to="/tasks">View Tasks</Link> <Link to="/events">View Events</Link> <Link to="/focus">Focus Mode</Link>
+      <Nav/>
+      <h1>Dashboard</h1> <Link to ='/dashboard'>Back to Dashboard</Link>
       <button onClick={handleLogout}>Logout</button>
       <p>Total Tasks: {stats.totalTasks}</p>
       <p>Focus Time: {stats.formattedFocusTime}</p>
