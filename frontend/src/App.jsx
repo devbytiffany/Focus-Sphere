@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Tasks from './pages/Tasks'
 import Events from './pages/Events'
+import FocusMode from './pages/FocusMode'
 import './App.css'
 
 function App(){
@@ -15,6 +16,7 @@ function App(){
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/tasks" element={<Tasks />} />
       <Route path="/events" element={<Events />} />
+      <Route path="/focus" element={<FocusMode />} />
     </Routes>
   )
 }

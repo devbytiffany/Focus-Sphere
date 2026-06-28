@@ -37,7 +37,7 @@ function Dashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1> <Link to="/tasks">View Tasks</Link> <Link to="/events">View Events</Link>
+      <h1>Dashboard</h1> <Link to="/tasks">View Tasks</Link> <Link to="/events">View Events</Link> <Link to="/focus">Focus Mode</Link>
       <button onClick={handleLogout}>Logout</button>
       <p>Total Tasks: {stats.totalTasks}</p>
       <p>Focus Time: {stats.formattedFocusTime}</p>
