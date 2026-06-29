@@ -97,3 +97,10 @@
 **What I built:** Live backend at https://focus-sphere.onrender.com, fully connected to Supabase in production. Protected the /test-db route with verifyToken and removed exposed password field
 **Problems encountered:** Initial deploy attempt prompted for a credit card unexpectedly (known intermittent Render issue); resolved by explicitly confirming Free instance type
 **Next steps:** Backend is feature-complete and deployed. Move to frontend development, then connect frontend to this live backend URL
+
+## Day 15
+**Date:** 2026-06-29
+**What I learned:** Deployed a static React frontend to Render, learned the difference between a Web Service and a Static Site, discovered the client-side routing "Not Found on refresh" problem and fixed it with a _redirects rewrite rule
+**What I built:** Full glassmorphism UI across all pages, a precise countdown timer with custom duration in Focus Mode, a splash screen with auto-redirect based on login state, and renamed/deployed the frontend live at https://focus-sphere-app.onrender.com
+**Problems encountered:** Render's "Name" field doesn't auto-update the live URL slug as expected; direct page refreshes returned "Not Found" until a redirect rule was added
+**Next steps:** Focus Sphere is fully built and deployed end-to-end. Future work: SEO basics, due_date/description fields on tasks, delete confirmations, tightening CORS before wider public use
